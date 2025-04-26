@@ -7,42 +7,42 @@
         body { font-family: Arial, sans-serif; padding: 20px; max-width: 600px; margin: 0 auto; }
         .dados { background: #f5f5f5; padding: 15px; border-radius: 5px; margin-top: 20px; }
         .campo { margin-bottom: 10px; }
-        .campo strong { display: inline-block; width: 100px; }
+        .campo strong { display: inline-block; width: 120px; }
+        #error { color: red; margin-top: 20px; }
     </style>
 </head>
 <body>
     <h1>Consulta de Dados</h1>
     <div id="loading">Carregando...</div>
     <div id="dados" class="dados" style="display: none;"></div>
-    <div id="erro" style="color: red; display: none;">Registro não encontrado.</div>
+    <div id="error" style="display: none;"></div>
 
     <script>
         // Pega o ID da URL (ex: https...?id=001)
         const urlParams = new URLSearchParams(window.location.search);
         const id = urlParams.get('id');
 
-        // URL do CSV no SharePoint (substitua pela sua)
-        const csvUrl = 'https://altussistemas-my.sharepoint.com/:x:/g/personal/gilnei_sabio_altus_com_br/ESGk_BfEKyRFkYZrTAO7fY8BxBNwRQkGUn_Nit0Pnfgrbg?e=zTaW1K';
+        // URL do CSV no GitHub (substitua pela sua)
+        const csvUrl = 'https://raw.githubusercontent.com/gilneisabio/altus_qrcode/refs/heads/main/dados.csv';
 
-        // Busca e exibe os dados
         async function carregarDados() {
             try {
                 const response = await fetch(csvUrl);
                 if (!response.ok) throw new Error("Erro ao carregar CSV");
                 
                 const csv = await response.text();
-                const linhas = csv.split('\n');
-                const cabecalhos = linhas[0].split(',');
+                const linhas = csv.split('\n').filter(line => line.trim() !== '');
+                const cabecalhos = linhas[0].split(',').map(h => h.trim());
 
                 // Procura o ID no CSV
                 for (let i = 1; i < linhas.length; i++) {
                     const valores = linhas[i].split(',');
-                    if (valores[0] === id) {
+                    if (valores[0].trim() === id) {
                         document.getElementById('loading').style.display = 'none';
                         
                         let html = '';
                         for (let j = 0; j < cabecalhos.length; j++) {
-                            html += `<div class="campo"><strong>${cabecalhos[j]}:</strong> ${valores[j]}</div>`;
+                            html += `<div class="campo"><strong>${cabecalhos[j]}:</strong> ${valores[j]?.trim() || '-'}</div>`;
                         }
                         
                         document.getElementById('dados').innerHTML = html;
@@ -53,11 +53,12 @@
 
                 // Se não encontrar o ID
                 document.getElementById('loading').style.display = 'none';
-                document.getElementById('erro').style.display = 'block';
+                document.getElementById('error').textContent = 'Registro não encontrado.';
+                document.getElementById('error').style.display = 'block';
             } catch (error) {
                 document.getElementById('loading').style.display = 'none';
-                document.getElementById('erro').innerHTML = 'Erro ao carregar dados. Tente novamente.';
-                document.getElementById('erro').style.display = 'block';
+                document.getElementById('error').textContent = 'Erro ao carregar dados. Tente novamente.';
+                document.getElementById('error').style.display = 'block';
                 console.error(error);
             }
         }
