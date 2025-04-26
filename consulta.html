@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Informações Gerais</title>
+    <title>Altus - Informações Gerais</title>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         body {
@@ -20,7 +20,7 @@
             background-color: #fff;
             border-radius: 8px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            width: 90%;
+            width: 95%;
             max-width: 960px;
             padding: 20px;
             box-sizing: border-box;
@@ -29,8 +29,8 @@
 
         .header {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            flex-direction: column;
+            align-items: flex-start;
             margin-bottom: 20px;
         }
 
@@ -39,6 +39,7 @@
             align-items: center;
             justify-content: flex-start;
             margin-bottom: 20px;
+            width: 100%;
         }
 
         .logo {
@@ -55,6 +56,8 @@
         .header-actions {
             display: flex;
             align-items: center;
+            justify-content: flex-end;
+            width: 100%;
         }
 
         .language-button,
@@ -78,7 +81,6 @@
             display: flex;
             margin-bottom: 20px;
             justify-content: flex-start;
-            border-bottom: 2px solid #007bff;
         }
 
         .tab-button {
@@ -90,6 +92,8 @@
             border-radius: 4px 4px 0 0;
             margin-right: 5px;
             cursor: default;
+            flex: 1;
+            text-align: center;
         }
 
         .tab-button.active {
@@ -108,6 +112,7 @@
             margin-bottom: 20px;
             padding-bottom: 10px;
             text-align: left;
+            font-size: 1.5rem;
         }
 
         #loading {
@@ -127,16 +132,17 @@
 
         .campo {
             margin-bottom: 10px;
-            display: grid;
-            grid-template-columns: 150px auto;
-            gap: 10px;
-            align-items: baseline;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
             word-break: break-word;
         }
 
         .campo strong {
             font-weight: bold;
             color: #555;
+            margin-right: 0;
+            margin-bottom: 5px;
         }
 
         #error {
@@ -144,6 +150,46 @@
             margin-top: 20px;
             text-align: center;
             font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                width: 98%;
+                padding: 15px;
+            }
+
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .logo-container {
+                margin-bottom: 20px;
+                width: 100%;
+                justify-content: flex-start;
+            }
+
+            .header-actions {
+                width: 100%;
+                justify-content: flex-start;
+                margin-top: 10px;
+            }
+
+            .tab-navigation {
+                flex-direction: column;
+            }
+
+            .tab-button {
+                margin-right: 0;
+                margin-bottom: 5px;
+                text-align: center;
+            }
+            .campo {
+                grid-template-columns: 1fr;
+            }
+            h1{
+                font-size: 1.2rem;
+            }
         }
     </style>
 </head>
@@ -233,3 +279,7 @@
     </script>
 </body>
 </html>
+
+
+
+            
