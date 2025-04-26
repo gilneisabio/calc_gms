@@ -20,7 +20,7 @@
             background-color: #fff;
             border-radius: 8px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            width: 90%;
+            width: 95%;
             max-width: 960px;
             padding: 20px;
             box-sizing: border-box;
@@ -56,7 +56,7 @@
         .header-actions {
             display: flex;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-end;
             width: 100%;
         }
 
@@ -133,16 +133,16 @@
         .campo {
             margin-bottom: 10px;
             display: flex;
-            justify-content: space-between;
-            align-items: baseline;
+            flex-direction: column;
+            align-items: flex-start;
             word-break: break-word;
         }
 
         .campo strong {
             font-weight: bold;
             color: #555;
-            margin-right: 10px;
-            margin-bottom: 0;
+            margin-right: 0;
+            margin-bottom: 5px;
         }
 
         #error {
@@ -160,18 +160,18 @@
 
             .header {
                 flex-direction: column;
-                align-items: center;
+                align-items: flex-start;
             }
 
             .logo-container {
                 margin-bottom: 20px;
                 width: 100%;
-                justify-content: center;
+                justify-content: flex-start;
             }
 
             .header-actions {
                 width: 100%;
-                justify-content: center;
+                justify-content: flex-start;
                 margin-top: 10px;
             }
 
@@ -186,11 +186,6 @@
             }
             .campo {
                 grid-template-columns: 1fr;
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            .campo strong{
-                margin-bottom: 5px;
             }
             h1{
                 font-size: 1.2rem;
@@ -211,39 +206,8 @@
         </div>
 
         <div id="consultaContainer">
-            <div id="loading" style="display:none;">Carregando...</div>
-            <div id="dados" class="dados" style="display: block;">
-                <div class="campo">
-                    <strong>ID:</strong> <span>2</span>
-                </div>
-                <div class="campo">
-                    <strong>UNIT:</strong> <span>Petrobras 84 (P-84)</span>
-                </div>
-                <div class="campo">
-                    <strong>TAG:</strong> <span>BIAN.02-01-EL-DPN-035</span>
-                </div>
-                <div class="campo">
-                    <strong>CLASS:</strong> <span>2</span>
-                </div>
-                <div class="campo">
-                    <strong>IC:</strong> <span>2</span>
-                </div>
-                <div class="campo">
-                    <strong>MANUFACTURER:</strong> <span>ALTUS</span>
-                </div>
-                <div class="campo">
-                    <strong>SERIAL NUMBER:</strong> <span>PN12345</span>
-                </div>
-                <div class="campo">
-                    <strong>NM CODE:</strong> <span>99.999.999-01</span>
-                </div>
-                <div class="campo">
-                    <strong>MODULE:</strong> <span>2</span>
-                </div>
-                <div class="campo">
-                    <strong>SSOP:</strong> <span>2</span>
-                </div>
-            </div>
+            <div id="loading">Carregando...</div>
+            <div id="dados" class="dados" style="display: none;"></div>
             <div id="error" class="error" style="display: none;"></div>
         </div>
 
@@ -285,7 +249,7 @@
                         document.getElementById('loading').style.display = 'none';
                         let html = '';
                         for (let j = 0; j < cabecalhos.length; j++) {
-                            html += `<div class="campo"><strong>${cabecalhos[j]}:</strong> <span>${valores[j]?.trim() || '-'}</span></div>`;
+                            html += `<div class="campo"><strong>${cabecalhos[j]}:</strong> ${valores[j]?.trim() || '-'}</div>`;
                         }
                         document.getElementById('dados').innerHTML = html;
                         document.getElementById('dados').style.display = 'block';
@@ -310,17 +274,12 @@
 
 
         window.onload = function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const id = urlParams.get('id');
-            if(id ==="2"){
-                carregarDados();
-            } else {
-                 document.getElementById('loading').style.display = 'none';
-                 document.getElementById('error').textContent = 'Nenhum ID Fornecido';
-                 document.getElementById('error').style.display = 'block';
-            }
-
+            carregarDados();
         };
     </script>
 </body>
 </html>
+
+
+
+            
