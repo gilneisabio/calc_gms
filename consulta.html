@@ -1,70 +1,235 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
-    <title>Consulta de Dados</title>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexto - Consulta de Dados</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: Arial, sans-serif; padding: 20px; max-width: 600px; margin: 0 auto; }
-        .dados { background: #f5f5f5; padding: 15px; border-radius: 5px; margin-top: 20px; }
-        .campo { margin-bottom: 10px; }
-        .campo strong { display: inline-block; width: 120px; }
-        #error { color: red; margin-top: 20px; }
+        body {
+            font-family: 'Open Sans', sans-serif;
+            margin: 0;
+            background: linear-gradient(to bottom, #1e3a8a, #3b82f6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .main-container {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 960px;
+            padding: 20px;
+            box-sizing: border-box;
+            text-align: left;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-right: 10px;
+        }
+
+        .logo span {
+            color: #007bff;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+        }
+
+        .language-button,
+        .refresh-button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-left: 10px;
+        }
+
+        .language-button:hover,
+        .refresh-button:hover {
+            background-color: #0056b3;
+        }
+
+        .tab-navigation {
+            display: flex;
+            margin-bottom: 20px;
+            justify-content: flex-start;
+            border-bottom: 2px solid #007bff;
+        }
+
+        .tab-button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 4px 4px 0 0;
+            margin-right: 5px;
+            cursor: default;
+        }
+
+        .tab-button.active {
+            background-color: #007bff;
+            color: #fff;
+            cursor: default;
+        }
+
+        #consultaContainer {
+            padding: 20px 20px 0 20px;
+            margin-top: 20px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            text-align: left;
+        }
+
+        #loading {
+            color: #777;
+            text-align: left;
+            margin-top: 20px;
+            font-style: italic;
+        }
+
+        .dados {
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .campo {
+            margin-bottom: 10px;
+            display: grid;
+            grid-template-columns: 150px auto;
+            gap: 10px;
+            align-items: baseline;
+            word-break: break-word;
+        }
+
+        .campo strong {
+            font-weight: bold;
+            color: #555;
+        }
+
+        #error {
+            color: #dc3545;
+            margin-top: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
-    <h1>Consulta de Dados</h1>
-    <div id="loading">Carregando...</div>
-    <div id="dados" class="dados" style="display: none;"></div>
-    <div id="error" style="display: none;"></div>
+    <div class="main-container">
+        <div class="header">
+            <div class="logo-container">
+                <img src="altus_logo.png" alt="Logo Altus" style="max-height: 50px;">
+            </div>
+        </div>
+
+        <div class="tab-navigation">
+            <div class="tab-button active" style="cursor: default;">Informações Gerais</div>
+        </div>
+
+        <div id="consultaContainer">
+            <div id="loading">Carregando...</div>
+            <div id="dados" class="dados" style="display: none;"></div>
+            <div id="error" class="error" style="display: none;"></div>
+        </div>
+
+    </div>
 
     <script>
-        // Pega o ID da URL (ex: https...?id=001)
-        const urlParams = new URLSearchParams(window.location.search);
-        const id = urlParams.get('id');
-
-        // URL do CSV no GitHub (substitua pela sua)
+        // URL do CSV no GitHub
         const csvUrl = 'https://raw.githubusercontent.com/gilneisabio/altus_qrcode/refs/heads/main/dados.csv';
 
         async function carregarDados() {
             try {
+                document.getElementById('loading').style.display = 'block';
+                document.getElementById('dados').style.display = 'none';
+                document.getElementById('error').style.display = 'none';
+
+                const urlParams = new URLSearchParams(window.location.search);
+                const id = urlParams.get('id');
+                console.log("ID da URL:", id);
+
                 const response = await fetch(csvUrl);
-                if (!response.ok) throw new Error("Erro ao carregar CSV");
-                
+                if (!response.ok) throw new Error(`Erro ao carregar CSV: ${response.status}`);
+
                 const csv = await response.text();
                 const linhas = csv.split('\n').filter(line => line.trim() !== '');
-                const cabecalhos = linhas[0].split(',').map(h => h.trim());
 
-                // Procura o ID no CSV
+                if (linhas.length <= 1) {
+                    document.getElementById('loading').style.display = 'none';
+                    document.getElementById('error').textContent = 'O arquivo CSV está vazio ou contém apenas o cabeçalho.';
+                    document.getElementById('error').style.display = 'block';
+                    return;
+                }
+
+                const cabecalhos = linhas[0].split(',').map(h => h.trim());
+                let encontrado = false;
+
                 for (let i = 1; i < linhas.length; i++) {
                     const valores = linhas[i].split(',');
-                    if (valores[0].trim() === id) {
+                    if (valores[0]?.trim() === id) {
                         document.getElementById('loading').style.display = 'none';
-                        
                         let html = '';
                         for (let j = 0; j < cabecalhos.length; j++) {
                             html += `<div class="campo"><strong>${cabecalhos[j]}:</strong> ${valores[j]?.trim() || '-'}</div>`;
                         }
-                        
                         document.getElementById('dados').innerHTML = html;
                         document.getElementById('dados').style.display = 'block';
-                        return;
+                        encontrado = true;
+                        break;
                     }
                 }
 
-                // Se não encontrar o ID
-                document.getElementById('loading').style.display = 'none';
-                document.getElementById('error').textContent = 'Registro não encontrado.';
-                document.getElementById('error').style.display = 'block';
+                if (!encontrado) {
+                    document.getElementById('loading').style.display = 'none';
+                    document.getElementById('error').textContent = 'Registro não encontrado.';
+                    document.getElementById('error').style.display = 'block';
+                }
+
             } catch (error) {
                 document.getElementById('loading').style.display = 'none';
-                document.getElementById('error').textContent = 'Erro ao carregar dados. Tente novamente.';
+                document.getElementById('error').textContent = `Erro ao carregar dados: ${error.message}`;
                 document.getElementById('error').style.display = 'block';
-                console.error(error);
+                console.error("Erro ao carregar dados:", error);
             }
         }
 
-        // Inicia a busca quando a página carrega
-        window.onload = carregarDados;
+
+        window.onload = function() {
+            carregarDados();
+        };
     </script>
 </body>
 </html>
