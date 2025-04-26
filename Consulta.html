@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Consulta de Dados</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; max-width: 600px; margin: 0 auto; }
+        .dados { background: #f5f5f5; padding: 15px; border-radius: 5px; margin-top: 20px; }
+        .campo { margin-bottom: 10px; }
+        .campo strong { display: inline-block; width: 100px; }
+    </style>
+</head>
+<body>
+    <h1>Consulta de Dados</h1>
+    <div id="loading">Carregando...</div>
+    <div id="dados" class="dados" style="display: none;"></div>
+    <div id="erro" style="color: red; display: none;">Registro não encontrado.</div>
+
+    <script>
+        // Pega o ID da URL (ex: https...?id=001)
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id');
+
+        // URL do CSV no SharePoint (substitua pela sua)
+        const csvUrl = 'https://altussistemas-my.sharepoint.com/:x:/g/personal/gilnei_sabio_altus_com_br/ESGk_BfEKyRFkYZrTAO7fY8BxBNwRQkGUn_Nit0Pnfgrbg?e=zTaW1K';
+
+        // Busca e exibe os dados
+        async function carregarDados() {
+            try {
+                const response = await fetch(csvUrl);
+                if (!response.ok) throw new Error("Erro ao carregar CSV");
+                
+                const csv = await response.text();
+                const linhas = csv.split('\n');
+                const cabecalhos = linhas[0].split(',');
+
+                // Procura o ID no CSV
+                for (let i = 1; i < linhas.length; i++) {
+                    const valores = linhas[i].split(',');
+                    if (valores[0] === id) {
+                        document.getElementById('loading').style.display = 'none';
+                        
+                        let html = '';
+                        for (let j = 0; j < cabecalhos.length; j++) {
+                            html += `<div class="campo"><strong>${cabecalhos[j]}:</strong> ${valores[j]}</div>`;
+                        }
+                        
+                        document.getElementById('dados').innerHTML = html;
+                        document.getElementById('dados').style.display = 'block';
+                        return;
+                    }
+                }
+
+                // Se não encontrar o ID
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('erro').style.display = 'block';
+            } catch (error) {
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('erro').innerHTML = 'Erro ao carregar dados. Tente novamente.';
+                document.getElementById('erro').style.display = 'block';
+                console.error(error);
+            }
+        }
+
+        // Inicia a busca quando a página carrega
+        window.onload = carregarDados;
+    </script>
+</body>
+</html>
