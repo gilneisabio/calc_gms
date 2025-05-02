@@ -11,12 +11,33 @@
         body {
             font-family: 'Inter', sans-serif;
         }
+
+        /* Estilos específicos para telas menores (celulares) */
+        @media (max-width: 767px) {
+            .container {
+                padding: 1rem; /* Reduz o padding em telas pequenas */
+            }
+            .cabecalho {
+                flex-direction: column; /* Empilha os elementos do cabeçalho */
+                align-items: center;
+                text-align: center;
+            }
+            .cabecalho img {
+                margin-bottom: 1rem; /* Adiciona margem abaixo do logo */
+            }
+            .grid-container {
+                grid-template-columns: 1fr; /* Força uma única coluna em telas pequenas */
+            }
+            .titulo-secao {
+                font-size: 1.25rem; /* Reduz o tamanho da fonte do título em telas pequenas */
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="min-h-screen flex items-center justify-center bg-gradient-to-r from-[#1f3a7a] via-[#1f3a7a] to-[#9dbecf] p-6">
+    <div class="min-h-screen flex items-center justify-center bg-gradient-to-r from-[#1f3a7a] via-[#1f3a7a] to-[#9dbecf] p-6 container">
         <div class="bg-white rounded-xl max-w-5xl w-full p-8 relative shadow-lg">
-            <div class="flex justify-between items-start mb-6 flex-wrap">
+            <div class="flex justify-between items-start mb-6 flex-wrap cabecalho">
                 <div class="flex items-center space-x-3 mb-4 md:mb-0">
                     <img alt="Altus logo" class="h-12 w-auto" src="https://raw.githubusercontent.com/gilneisabio/altus_qrcode/main/altus_logo.png"/>
                 </div>
@@ -25,10 +46,10 @@
                 </div>
             </div>
             <section>
-                <h1 class="bg-[#003a8c] text-white font-bold text-center rounded-t-md py-2 text-lg">
+                <h1 class="bg-[#003a8c] text-white font-bold text-center rounded-t-md py-2 text-lg titulo-secao">
                     INFORMAÇÕES GERAIS
                 </h1>
-                <div class="grid grid-cols-[280px_1fr] sm:grid-cols-1 rounded-b-md overflow-hidden" id="dadosContainer">
+                <div class="grid grid-cols-[280px_1fr] sm:grid-cols-1 rounded-b-md overflow-hidden grid-container" id="dadosContainer">
                     </div>
             </section>
         </div>
@@ -42,7 +63,7 @@
             const offsetBrasilia = -0 * 60;
             const localTime = new Date(agora.getTime() + (offsetBrasilia - agora.getTimezoneOffset()) * 60000);
             const dataHora = localTime.toISOString().slice(0, 19).replace("T", " ");
-            document.getElementById("datetime").textContent = `${dataHora} (UTC-3)`;
+            document.getElementById("datetime").textContent = `${dataHora} (UTC)`;
         }
 
         function getParametroID() {
