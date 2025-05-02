@@ -14,22 +14,23 @@
   </style>
 </head>
 <body>
-  <div class="min-h-screen flex items-center justify-center bg-gradient-to-r from-[#1f3a7a] via-[#1f3a7a] to-[#9dbecf] p-6">
-    <div class="bg-white rounded-xl max-w-5xl w-full p-8 relative">
-      <div class="flex justify-between items-start mb-6">
+  <div class="min-h-screen flex items-center justify-center bg-gradient-to-r from-[#1f3a7a] via-[#1f3a7a] to-[#9dbecf] p-4 sm:p-6">
+    <div class="bg-white rounded-xl w-full max-w-6xl p-4 sm:p-8 relative">
+      <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 space-y-4 sm:space-y-0">
         <div class="flex items-center space-x-3">
           <img alt="Altus logo" class="h-12 w-auto" src="https://raw.githubusercontent.com/gilneisabio/altus_qrcode/main/altus_logo.png"/>
         </div>
-        <div class="text-xs font-semibold text-[#003a7e] leading-none select-none" id="timestamp">
+        <div class="text-xs font-semibold text-[#003a7e] leading-none select-none" id="datetime">
           Carregando...
         </div>
       </div>
+
       <section>
         <h1 class="bg-[#003a8c] text-white font-bold text-center rounded-t-md py-2 text-lg">
           INFORMAÇÕES GERAIS
         </h1>
 
-        <div class="grid grid-cols-[280px_1fr] rounded-b-md overflow-hidden" id="dadosContainer">
+        <div id="dadosContainer" class="grid grid-cols-1 sm:grid-cols-2 overflow-hidden rounded-b-md border border-gray-200">
           <!-- Dados inseridos via JavaScript -->
         </div>
       </section>
@@ -39,14 +40,6 @@
   <script>
     const urlCSV = "https://raw.githubusercontent.com/gilneisabio/altus_qrcode/refs/heads/main/dados.csv";
     let registros = [];
-
-    function atualizarRelogioBrasilia() {
-      const agora = new Date();
-      const offsetBrasilia = -0 * 60; // UTC-3
-      const localTime = new Date(agora.getTime() + (offsetBrasilia - agora.getTimezoneOffset()) * 60000);
-      const dataHora = localTime.toISOString().slice(0, 19).replace("T", " ");
-      document.getElementById("timestamp").textContent = `${dataHora}`;
-    }
 
     function getParametroID() {
       const params = new URLSearchParams(window.location.search);
@@ -67,8 +60,6 @@
           });
           return obj;
         });
-				   
-		 
 
         const id = getParametroID();
         if (id) mostrarDadosPorID(id);
@@ -79,38 +70,47 @@
     }
 
     function mostrarDadosPorID(id) {
-  const container = document.getElementById("dadosContainer");
-  container.innerHTML = "";
-  const item = registros.find(r => r.ID === id);
+      const container = document.getElementById("dadosContainer");
+      container.innerHTML = "";
+      const item = registros.find(r => r.ID === id);
 
-  if (!item) {
-    mostrarErro("ID não encontrado.");
-    return;
-  }
+      if (!item) {
+        mostrarErro("ID não encontrado.");
+        return;
+      }
 
-  const coresTitulo = ["bg-[#4f6b9d]", "bg-[#6f8dbd]"];
-  const coresValor  = ["bg-[#f3f3f3]", "bg-[#f9f9f9]"];
+      const coresTitulo = ["bg-[#4f6b9d]", "bg-[#6f8dbd]"];
+      const coresValor  = ["bg-[#f3f3f3]", "bg-[#f9f9f9]"];
 
-  let i = 0;
-  for (const [chave, valor] of Object.entries(item)) {
-    const corTitulo = coresTitulo[i % 2];
-    const corValor = coresValor[i % 2];
+      let i = 0;
+      for (const [chave, valor] of Object.entries(item)) {
+        const corTitulo = coresTitulo[i % 2];
+        const corValor = coresValor[i % 2];
 
-    container.innerHTML += `
-      <div class="${corTitulo} text-white font-semibold px-4 py-2">${chave.toUpperCase()}</div>
-      <div class="${corValor} text-altus-gray font-normal py-2 px-4">${valor}</div>
-    `;
-    i++;
-  }
-}
+        container.innerHTML += `
+          <div class="${corTitulo} text-white font-semibold px-4 py-2 break-words">${chave.toUpperCase()}</div>
+          <div class="${corValor} text-gray-700 font-normal py-2 px-4 break-words">${valor}</div>
+        `;
+        i++;
+      }
+    }
 
     function mostrarErro(mensagem) {
       const container = document.getElementById("dadosContainer");
-      container.innerHTML = `<div class="col-span-2 text-red-600 p-4">${mensagem}</div>`;
+      container.innerHTML = `<div class="col-span-1 sm:col-span-2 text-red-600 p-4">${mensagem}</div>`;
     }
 
-    atualizarRelogioBrasilia();
+    function atualizarDataHora() {
+      const agora = new Date();
+      const offsetBrasilia = -180; // UTC-3 em minutos
+      const localTime = new Date(agora.getTime() + (offsetBrasilia - agora.getTimezoneOffset()) * 60000);
+      const dataHora = localTime.toISOString().slice(0, 19).replace("T", " ");
+      document.getElementById("datetime").textContent = `${dataHora}`;
+    }
+
     carregarCSV();
+    atualizarDataHora();
+    setInterval(atualizarDataHora, 1000);
   </script>
 </body>
 </html>
