@@ -1,204 +1,95 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Altus - Informações Gerais</title>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Open Sans', sans-serif;
-            background: linear-gradient(to bottom, #1e3a8a, #3b82f6);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .container {
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
-            width: 90%;
-            max-width: 1200px;
-            padding: 30px 20px;
-            position: relative;
-        }
-
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .logo img {
-            height: 50px;
-        }
-
-        .datetime {
-            font-size: 14px;
-            color: #555;
-        }
-
-        .section-title {
-            background-color: #003893;
-            color: white;
-            font-weight: 700;
-            text-align: center;
-            padding: 10px 0;
-            font-size: 20px;
-            margin-bottom: 0;
-        }
-		.tab-navigation {
-            display: flex;
-            margin-bottom: 20px;
-            justify-content: flex-start;
-            border-bottom: 2px solid #007bff;
-        }
-		
-        .tab-button {
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            font-size: 16px;
-            border-radius: 4px 4px 0 0;
-            margin-right: 5px;
-            cursor: default;
-        }
-
-        .tab-button.active {
-            background-color: #007bff;
-            color: #fff;
-            cursor: default;
-        }
-
-        .info-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 0;
-        }
-
-        .info-table tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-
-        .info-table tr:nth-child(odd) {
-            background-color: #5c77a3;
-        }
-
-        .info-table td {
-            padding: 14px 10px;
-            color: white;
-        }
-
-        .info-table tr:nth-child(even) td {
-            color: #555;
-        }
-    </style>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Altus - Informações Gerais</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <div class="logo">
-                <img src="https://raw.githubusercontent.com/gilneisabio/altus_qrcode/main/altus_logo.png" alt="Logo Altus">
-            </div>
-            <div class="datetime" id="datetime">2025-04-26 21:25:32 (UTC)</div>
+  <div class="min-h-screen flex items-center justify-center bg-gradient-to-r from-[#1f3a7a] via-[#1f3a7a] to-[#9dbecf] p-6">
+    <div class="bg-white rounded-xl max-w-5xl w-full p-8 relative">
+      <div class="flex justify-between items-start mb-6">
+        <div class="flex items-center space-x-3">
+          <img alt="Altus logo" class="h-12 w-auto" src="https://raw.githubusercontent.com/gilneisabio/altus_qrcode/main/altus_logo.png"/>
         </div>
-
-        <div class="tab-navigation">
-            <div class="tab-button active" style="cursor: default;">Informações Gerais</div>
+        <div class="text-xs font-semibold text-[#003a7e] leading-none select-none">
+          <span id="timestamp"></span>
         </div>
+      </div>
+      <section>
+        <h1 class="bg-[#003a8c] text-white font-bold text-center rounded-t-md py-2 text-lg">
+          INFORMAÇÕES GERAIS
+        </h1>
 
-        <div id="consultaContainer">
-            <div id="loading">Carregando...</div>
-            <div id="dados" class="dados" style="display: none;"></div>
-            <div id="error" class="error" style="display: none;"></div>
+        <div class="grid grid-cols-[280px_1fr] rounded-b-md overflow-hidden" id="dadosContainer">
+          <!-- Dados inseridos via JavaScript -->
         </div>
-
+      </section>
     </div>
+  </div>
 
-    <script>
-        // URL do CSV no GitHub
-        const csvUrl = 'https://raw.githubusercontent.com/gilneisabio/altus_qrcode/refs/heads/main/dados.csv';
+  <script>
+    const urlCSV = "https://raw.githubusercontent.com/gilneisabio/altus_qrcode/refs/heads/main/dados.csv";
+    let registros = [];
 
-        async function carregarDados() {
-            try {
-                document.getElementById('loading').style.display = 'block';
-                document.getElementById('dados').style.display = 'none';
-                document.getElementById('error').style.display = 'none';
+    document.getElementById("timestamp").textContent = new Date().toISOString().slice(0, 19).replace("T", " ") + " (UTC)";
 
-                const urlParams = new URLSearchParams(window.location.search);
-                const id = urlParams.get('id');
-                console.log("ID da URL:", id);
+    function getParametroID() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get("id");
+    }
 
-                const response = await fetch(csvUrl);
-                if (!response.ok) throw new Error(`Erro ao carregar CSV: ${response.status}`);
+    async function carregarCSV() {
+      const response = await fetch(urlCSV);
+      const data = await response.text();
+      const linhas = data.trim().split("\n");
+      const cabecalho = linhas[0].split(";");
+      registros = linhas.slice(1).map(linha => {
+        const valores = linha.split(";");
+        const obj = {};
+        cabecalho.forEach((col, i) => {
+          obj[col.trim()] = valores[i]?.trim();
+        });
+        return obj;
+      });
 
-                const csv = await response.text();
-                const linhas = csv.split('\n').filter(line => line.trim() !== '');
+      const id = getParametroID();
+      if (id) mostrarDadosPorID(id);
+      else mostrarErro("Nenhum ID fornecido na URL.");
+    }
 
-                if (linhas.length <= 1) {
-                    document.getElementById('loading').style.display = 'none';
-                    document.getElementById('error').textContent = 'O arquivo CSV está vazio ou contém apenas o cabeçalho.';
-                    document.getElementById('error').style.display = 'block';
-                    return;
-                }
+    function mostrarDadosPorID(id) {
+      const container = document.getElementById("dadosContainer");
+      container.innerHTML = "";
+      const item = registros.find(r => r.ID === id);
 
-                const cabecalhos = linhas[0].split(',').map(h => h.trim());
-                let encontrado = false;
+      if (!item) {
+        mostrarErro("ID não encontrado.");
+        return;
+      }
 
-                for (let i = 1; i < linhas.length; i++) {
-                    const valores = linhas[i].split(',');
-                    if (valores[0]?.trim() === id) {
-                        document.getElementById('loading').style.display = 'none';
-                        let html = '';
-                        for (let j = 0; j < cabecalhos.length; j++) {
-                            html += `<div class="campo"><strong>${cabecalhos[j]}:</strong> ${valores[j]?.trim() || '-'}</div>`;
-                        }
-                        document.getElementById('dados').innerHTML = html;
-                        document.getElementById('dados').style.display = 'block';
-                        encontrado = true;
-                        break;
-                    }
-                }
+      for (const [chave, valor] of Object.entries(item)) {
+        container.innerHTML += `
+          <div class="bg-[#4f6b9d] text-white font-semibold px-4 py-2">${chave}</div>
+          <div class="bg-[#f3f3f3] text-altus-gray font-normal py-2 px-4">${valor}</div>
+        `;
+      }
+    }
 
-                if (!encontrado) {
-                    document.getElementById('loading').style.display = 'none';
-                    document.getElementById('error').textContent = 'Registro não encontrado.';
-                    document.getElementById('error').style.display = 'block';
-                }
+    function mostrarErro(mensagem) {
+      const container = document.getElementById("dadosContainer");
+      container.innerHTML = `<div class="col-span-2 text-red-600 p-4">${mensagem}</div>`;
+    }
 
-            } catch (error) {
-                document.getElementById('loading').style.display = 'none';
-                document.getElementById('error').textContent = `Erro ao carregar dados: ${error.message}`;
-                document.getElementById('error').style.display = 'block';
-                console.error("Erro ao carregar dados:", error);
-            }
-        }
-
-
-        window.onload = function() {
-            carregarDados();
-        };
-    </script>
-      
-    <script>
-        function atualizarDataHora() {
-            const now = new Date();
-            const utcString = now.toISOString().replace('T', ' ').substring(0, 19) + ' (UTC)';
-            document.getElementById('datetime').textContent = utcString;
-        }
-
-        atualizarDataHora();
-        setInterval(atualizarDataHora, 1000);
-    </script>
+    carregarCSV();
+  </script>
 </body>
 </html>
