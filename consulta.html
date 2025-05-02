@@ -29,7 +29,7 @@
           INFORMAÇÕES GERAIS
         </h1>
 
-        <div class="grid grid-cols-[30%_1fr] rounded-b-md overflow-hidden" id="dadosContainer">
+        <div class="grid grid-cols-[40%_1fr] rounded-b-md overflow-hidden" id="dadosContainer">
           <!-- Dados inseridos via JavaScript -->
         </div>
       </section>
@@ -87,8 +87,8 @@
         const corValor = coresValor[i % 2];
 
         container.innerHTML += `
-          <div class="${corTitulo} text-white font-semibold px-4 py-2 text-[0.75rem] sm:text-sm truncate whitespace-nowrap">${chave.toUpperCase()}</div>
-          <div class="${corValor} text-altus-gray font-normal py-2 px-4 text-[0.75rem] sm:text-sm truncate whitespace-nowrap min-w-0">${valor}</div>
+          <div class="${corTitulo} text-white font-semibold px-4 py-2 text-[0.65rem] sm:text-xs truncate whitespace-nowrap">${chave.toUpperCase()}</div>
+          <div class="${corValor} text-altus-gray font-normal py-2 px-4 text-[0.65rem] sm:text-xs truncate whitespace-nowrap min-w-0">${valor}</div>
         `;
         i++;
       }
