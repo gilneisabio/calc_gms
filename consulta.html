@@ -40,14 +40,6 @@
     const urlCSV = "https://raw.githubusercontent.com/gilneisabio/altus_qrcode/refs/heads/main/dados.csv";
     let registros = [];
 
-    function atualizarRelogioBrasilia() {
-      const agora = new Date();
-      const offsetBrasilia = -0 * 60; // UTC-3
-      const localTime = new Date(agora.getTime() + (offsetBrasilia - agora.getTimezoneOffset()) * 60000);
-      const dataHora = localTime.toISOString().slice(0, 19).replace("T", " ");
-      document.getElementById("timestamp").textContent = `${dataHora}`;
-    }
-
     function getParametroID() {
       const params = new URLSearchParams(window.location.search);
       return params.get("id");
@@ -95,8 +87,8 @@
         const corValor = coresValor[i % 2];
 
         container.innerHTML += `
-          <div class="${corTitulo} text-white font-semibold px-4 py-2 text-sm truncate whitespace-nowrap">${chave.toUpperCase()}</div>
-          <div class="${corValor} text-altus-gray font-normal py-2 px-4 text-sm truncate whitespace-nowrap min-w-0">${valor}</div>
+          <div class="${corTitulo} text-white font-semibold px-4 py-2 text-[0.75rem] sm:text-sm truncate whitespace-nowrap">${chave.toUpperCase()}</div>
+          <div class="${corValor} text-altus-gray font-normal py-2 px-4 text-[0.75rem] sm:text-sm truncate whitespace-nowrap min-w-0">${valor}</div>
         `;
         i++;
       }
@@ -107,10 +99,6 @@
       container.innerHTML = `<div class="col-span-2 text-red-600 p-4">${mensagem}</div>`;
     }
 
-    carregarCSV();
-  </script>
-
-  <script>
     function atualizarDataHora() {
       const agora = new Date();
       const offsetBrasilia = -0 * 60; // UTC-3
@@ -119,6 +107,7 @@
       document.getElementById("datetime").textContent = `${dataHora}`;
     }
 
+    carregarCSV();
     atualizarDataHora();
     setInterval(atualizarDataHora, 1000);
   </script>
