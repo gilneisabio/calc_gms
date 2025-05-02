@@ -31,6 +31,12 @@
             .titulo-secao {
                 font-size: 1.25rem; /* Reduz o tamanho da fonte do título em telas pequenas */
             }
+             .info-label {
+                font-size: 0.8rem;
+              }
+              .info-value {
+                font-size: 0.9rem;
+              }
         }
     </style>
 </head>
@@ -114,8 +120,8 @@
                 const corValor = coresValor[i % 2];
                 const valorFormatado = valor ? valor : '-';
                 container.innerHTML += `
-                    <div class="${corTitulo} text-white font-semibold px-4 py-2">${chave.toUpperCase()}</div>
-                    <div class="${corValor} text-gray-700 font-normal py-2 px-4">${valorFormatado}</div>
+                    <div class="${corTitulo} text-white font-semibold px-4 py-2 info-label">${chave.toUpperCase()}</div>
+                    <div class="${corValor} text-gray-700 font-normal py-2 px-4 info-value">${valorFormatado}</div>
                 `;
                 i++;
             }
