@@ -15,28 +15,66 @@
         /* Estilos específicos para telas menores (celulares) */
         @media (max-width: 767px) {
             .container {
-                padding: 1rem; /* Reduz o padding em telas pequenas */
+                padding: 1rem;
             }
             .cabecalho {
-                flex-direction: column; /* Empilha os elementos do cabeçalho */
+                flex-direction: column;
                 align-items: center;
                 text-align: center;
             }
             .cabecalho img {
-                margin-bottom: 1rem; /* Adiciona margem abaixo do logo */
+                margin-bottom: 1rem;
             }
-            .grid-container {
-                grid-template-columns: 1fr; /* Força uma única coluna em telas pequenas */
+            .dados-container {
+                display: flex;
+                flex-direction: column;
+            }
+            .info-item {
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+            }
+            .info-label {
+                font-size: 0.8rem;
+                font-weight: bold;
+                padding: 0.5rem 0;
+                background-color: #f3f3f3;
+            }
+            .info-value {
+                font-size: 0.9rem;
+                padding: 0.5rem 0;
+                background-color: #ffffff;
+                margin-bottom: 1rem;
+                border-bottom: 1px solid #ddd;
             }
             .titulo-secao {
-                font-size: 1.25rem; /* Reduz o tamanho da fonte do título em telas pequenas */
+                font-size: 1.25rem;
+            }
+        }
+
+        /* Estilos para telas maiores (computadores) */
+        @media (min-width: 768px) {
+            .dados-container {
+                display: grid;
+                grid-template-columns: 280px 1fr;
+            }
+            .info-item {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                padding: 0.5rem 0;
             }
              .info-label {
-                font-size: 0.8rem;
-              }
-              .info-value {
-                font-size: 0.9rem;
-              }
+                font-size: 1rem;
+                font-weight: bold;
+                background-color: #f3f3f3;
+                padding: 0.5rem;
+            }
+            .info-value {
+                font-size: 1rem;
+                background-color: #ffffff;
+                padding: 0.5rem;
+            }
         }
     </style>
 </head>
@@ -55,7 +93,7 @@
                 <h1 class="bg-[#003a8c] text-white font-bold text-center rounded-t-md py-2 text-lg titulo-secao">
                     INFORMAÇÕES GERAIS
                 </h1>
-                <div class="grid grid-cols-[280px_1fr] sm:grid-cols-1 rounded-b-md overflow-hidden grid-container" id="dadosContainer">
+                <div class="dados-container" id="dadosContainer">
                     </div>
             </section>
         </div>
@@ -69,7 +107,7 @@
             const offsetBrasilia = -0 * 60;
             const localTime = new Date(agora.getTime() + (offsetBrasilia - agora.getTimezoneOffset()) * 60000);
             const dataHora = localTime.toISOString().slice(0, 19).replace("T", " ");
-            document.getElementById("datetime").textContent = `${dataHora} (UTC)`;
+            document.getElementById("datetime").textContent = `${dataHora} (UTC-)`;
         }
 
         function getParametroID() {
@@ -93,9 +131,9 @@
                 });
                 const id = getParametroID();
                 if (id) {
-                  mostrarDadosPorID(id);
+                    mostrarDadosPorID(id);
                 } else {
-                   mostrarErro("Nenhum ID fornecido na URL.");
+                    mostrarErro("Nenhum ID fornecido na URL.");
                 }
             } catch (error) {
                 mostrarErro("Erro ao carregar o arquivo CSV.");
@@ -119,9 +157,12 @@
                 const corTitulo = coresTitulo[i % 2];
                 const corValor = coresValor[i % 2];
                 const valorFormatado = valor ? valor : '-';
+
                 container.innerHTML += `
-                    <div class="${corTitulo} text-white font-semibold px-4 py-2 info-label">${chave.toUpperCase()}</div>
-                    <div class="${corValor} text-gray-700 font-normal py-2 px-4 info-value">${valorFormatado}</div>
+                    <div class="info-item">
+                        <div class="${corTitulo} text-white font-semibold px-4 py-2 info-label">${chave.toUpperCase()}</div>
+                        <div class="${corValor} text-gray-700 font-normal py-2 px-4 info-value">${valorFormatado}</div>
+                    </div>
                 `;
                 i++;
             }
