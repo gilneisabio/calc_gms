@@ -1,181 +1,126 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Altus - Informações Gerais</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-
-        /* Estilos específicos para telas menores (celulares) */
-        @media (max-width: 767px) {
-            .container {
-                padding: 1rem;
-            }
-            .cabecalho {
-                flex-direction: column;
-                align-items: center;
-                text-align: center;
-            }
-            .cabecalho img {
-                margin-bottom: 1rem;
-            }
-            .dados-container {
-                display: flex;
-                flex-direction: column;
-            }
-            .info-item {
-                display: flex;
-                flex-direction: column;
-                width: 100%;
-            }
-            .info-label {
-                font-size: 0.8rem;
-                font-weight: bold;
-                padding: 0.5rem 0;
-                background-color: #f3f3f3;
-            }
-            .info-value {
-                font-size: 0.9rem;
-                padding: 0.5rem 0;
-                background-color: #ffffff;
-                margin-bottom: 1rem;
-                border-bottom: 1px solid #ddd;
-            }
-            .titulo-secao {
-                font-size: 1.25rem;
-            }
-        }
-
-        /* Estilos para telas maiores (computadores) */
-        @media (min-width: 768px) {
-            .dados-container {
-                display: grid;
-                grid-template-columns: 280px 1fr;
-            }
-            .info-item {
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                padding: 0.5rem 0;
-            }
-             .info-label {
-                font-size: 1rem;
-                font-weight: bold;
-                background-color: #f3f3f3;
-                padding: 0.5rem;
-            }
-            .info-value {
-                font-size: 1rem;
-                background-color: #ffffff;
-                padding: 0.5rem;
-            }
-        }
-    </style>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Altus - Informações Gerais</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+  </style>
 </head>
 <body>
-    <div class="min-h-screen flex items-center justify-center bg-gradient-to-r from-[#1f3a7a] via-[#1f3a7a] to-[#9dbecf] p-6 container">
-        <div class="bg-white rounded-xl max-w-5xl w-full p-8 relative shadow-lg">
-            <div class="flex justify-between items-start mb-6 flex-wrap cabecalho">
-                <div class="flex items-center space-x-3 mb-4 md:mb-0">
-                    <img alt="Altus logo" class="h-12 w-auto" src="https://raw.githubusercontent.com/gilneisabio/altus_qrcode/main/altus_logo.png"/>
-                </div>
-                <div class="text-xs font-semibold text-[#003a7e] leading-none select-none" id="datetime">
-                  Carregando...
-                </div>
-            </div>
-            <section>
-                <h1 class="bg-[#003a8c] text-white font-bold text-center rounded-t-md py-2 text-lg titulo-secao">
-                    INFORMAÇÕES GERAIS
-                </h1>
-                <div class="dados-container" id="dadosContainer">
-                    </div>
-            </section>
+  <div class="min-h-screen flex items-center justify-center bg-gradient-to-r from-[#1f3a7a] via-[#1f3a7a] to-[#9dbecf] p-6">
+    <div class="bg-white rounded-xl max-w-5xl w-full p-8 relative">
+      <div class="flex justify-between items-start mb-6">
+        <div class="flex items-center space-x-3">
+          <img alt="Altus logo" class="h-12 w-auto" src="https://raw.githubusercontent.com/gilneisabio/altus_qrcode/main/altus_logo.png"/>
         </div>
+        <div class="text-xs font-semibold text-[#003a7e] leading-none select-none" id="datetime">
+          Carregando...
+        </div>
+      </div>
+      <section>
+        <h1 class="bg-[#003a8c] text-white font-bold text-center rounded-t-md py-2 text-lg">
+          INFORMAÇÕES GERAIS
+        </h1>
+
+        <div class="grid grid-cols-[30%_1fr] rounded-b-md overflow-hidden" id="dadosContainer">
+          <!-- Dados inseridos via JavaScript -->
+        </div>
+      </section>
     </div>
-    <script>
-        const urlCSV = "https://raw.githubusercontent.com/gilneisabio/altus_qrcode/refs/heads/main/dados.csv";
-        let registros = [];
+  </div>
 
-        function atualizarRelogioBrasilia() {
-            const agora = new Date();
-            const offsetBrasilia = -0 * 60;
-            const localTime = new Date(agora.getTime() + (offsetBrasilia - agora.getTimezoneOffset()) * 60000);
-            const dataHora = localTime.toISOString().slice(0, 19).replace("T", " ");
-            document.getElementById("datetime").textContent = `${dataHora} (UTC-)`;
-        }
+  <script>
+    const urlCSV = "https://raw.githubusercontent.com/gilneisabio/altus_qrcode/refs/heads/main/dados.csv";
+    let registros = [];
 
-        function getParametroID() {
-            const params = new URLSearchParams(window.location.search);
-            return params.get("id");
-        }
+    function atualizarRelogioBrasilia() {
+      const agora = new Date();
+      const offsetBrasilia = -0 * 60; // UTC-3
+      const localTime = new Date(agora.getTime() + (offsetBrasilia - agora.getTimezoneOffset()) * 60000);
+      const dataHora = localTime.toISOString().slice(0, 19).replace("T", " ");
+      document.getElementById("timestamp").textContent = `${dataHora}`;
+    }
 
-        async function carregarCSV() {
-            try {
-                const response = await fetch(urlCSV);
-                const data = await response.text();
-                const linhas = data.trim().split("\n");
-                const cabecalho = linhas[0].split(",");
-                registros = linhas.slice(1).map(linha => {
-                    const valores = linha.split(",");
-                    const obj = {};
-                    cabecalho.forEach((col, i) => {
-                        obj[col.trim()] = valores[i]?.trim() || '-';
-                    });
-                    return obj;
-                });
-                const id = getParametroID();
-                if (id) {
-                    mostrarDadosPorID(id);
-                } else {
-                    mostrarErro("Nenhum ID fornecido na URL.");
-                }
-            } catch (error) {
-                mostrarErro("Erro ao carregar o arquivo CSV.");
-            }
-        }
+    function getParametroID() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get("id");
+    }
 
-        function mostrarDadosPorID(id) {
-            const container = document.getElementById("dadosContainer");
-            container.innerHTML = "";
-            const item = registros.find(r => r.ID === id);
-            if (!item) {
-                mostrarErro("ID não encontrado.");
-                return;
-            }
+    async function carregarCSV() {
+      try {
+        const response = await fetch(urlCSV);
+        const data = await response.text();
+        const linhas = data.trim().split("\n");
+        const cabecalho = linhas[0].split(",");
+        registros = linhas.slice(1).map(linha => {
+          const valores = linha.split(",");
+          const obj = {};
+          cabecalho.forEach((col, i) => {
+            obj[col.trim()] = valores[i]?.trim();
+          });
+          return obj;
+        });
 
-            const coresTitulo = ["bg-[#4f6b9d]", "bg-[#6f8dbd]"];
-            const coresValor = ["bg-[#f3f3f3]", "bg-[#f9f9f9]"];
-            let i = 0;
+        const id = getParametroID();
+        if (id) mostrarDadosPorID(id);
+        else mostrarErro("Nenhum ID fornecido na URL.");
+      } catch (error) {
+        mostrarErro("Erro ao carregar o arquivo CSV.");
+      }
+    }
 
-            for (const [chave, valor] of Object.entries(item)) {
-                const corTitulo = coresTitulo[i % 2];
-                const corValor = coresValor[i % 2];
-                const valorFormatado = valor ? valor : '-';
+    function mostrarDadosPorID(id) {
+      const container = document.getElementById("dadosContainer");
+      container.innerHTML = "";
+      const item = registros.find(r => r.ID === id);
 
-                container.innerHTML += `
-                    <div class="info-item">
-                        <div class="${corTitulo} text-white font-semibold px-4 py-2 info-label">${chave.toUpperCase()}</div>
-                        <div class="${corValor} text-gray-700 font-normal py-2 px-4 info-value">${valorFormatado}</div>
-                    </div>
-                `;
-                i++;
-            }
-        }
+      if (!item) {
+        mostrarErro("ID não encontrado.");
+        return;
+      }
 
-        function mostrarErro(mensagem) {
-            const container = document.getElementById("dadosContainer");
-            container.innerHTML = `<div class="col-span-2 text-red-600 p-4">${mensagem}</div>`;
-        }
+      const coresTitulo = ["bg-[#4f6b9d]", "bg-[#6f8dbd]"];
+      const coresValor  = ["bg-[#f3f3f3]", "bg-[#f9f9f9]"];
 
-        carregarCSV();
-        atualizarRelogioBrasilia();
-        setInterval(atualizarRelogioBrasilia, 1000);
-    </script>
+      let i = 0;
+      for (const [chave, valor] of Object.entries(item)) {
+        const corTitulo = coresTitulo[i % 2];
+        const corValor = coresValor[i % 2];
+
+        container.innerHTML += `
+          <div class="${corTitulo} text-white font-semibold px-4 py-2 text-sm truncate whitespace-nowrap">${chave.toUpperCase()}</div>
+          <div class="${corValor} text-altus-gray font-normal py-2 px-4 text-sm truncate whitespace-nowrap min-w-0">${valor}</div>
+        `;
+        i++;
+      }
+    }
+
+    function mostrarErro(mensagem) {
+      const container = document.getElementById("dadosContainer");
+      container.innerHTML = `<div class="col-span-2 text-red-600 p-4">${mensagem}</div>`;
+    }
+
+    carregarCSV();
+  </script>
+
+  <script>
+    function atualizarDataHora() {
+      const agora = new Date();
+      const offsetBrasilia = -0 * 60; // UTC-3
+      const localTime = new Date(agora.getTime() + (offsetBrasilia - agora.getTimezoneOffset()) * 60000);
+      const dataHora = localTime.toISOString().slice(0, 19).replace("T", " ");
+      document.getElementById("datetime").textContent = `${dataHora}`;
+    }
+
+    atualizarDataHora();
+    setInterval(atualizarDataHora, 1000);
+  </script>
 </body>
 </html>
