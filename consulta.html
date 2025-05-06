@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Altus - Informações Gerais</title>
+  <title>Altus - General Information</title>
+  <link rel="icon" href="https://www.altus.com.br/favicon.ico" type="image/x-icon">
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
   <style>
@@ -18,15 +19,12 @@
     <div class="bg-white rounded-xl max-w-5xl w-full p-8 relative">
       <div class="flex justify-between items-start mb-6">
         <div class="flex items-center space-x-3">
-          <img alt="Altus logo" class="h-12 w-auto" src="https://raw.githubusercontent.com/gilneisabio/altus_qrcode/main/altus_logo.png"/>
-        </div>
-        <div class="text-xs font-semibold text-[#003a7e] leading-none select-none" id="datetime">
-          Carregando...
+          <img alt="Altus logo" class="h-12 w-auto" src="https://www.altus.com.br/site/visual/img/logo-altus-pt.png"/>
         </div>
       </div>
       <section>
         <h1 class="bg-[#003a8c] text-white font-bold text-center rounded-t-md py-2 text-lg">
-          INFORMAÇÕES GERAIS
+          GENERAL INFORMATION
         </h1>
 
         <div class="grid grid-cols-[40%_1fr] rounded-b-md overflow-hidden" id="dadosContainer">
@@ -50,7 +48,7 @@
 
     function getParametroID() {
       const params = new URLSearchParams(window.location.search);
-      return params.get("id");
+      return params.get("tag");
     }
 
     async function carregarCSV() {
@@ -68,21 +66,21 @@
           return obj;
         });
 
-        const id = getParametroID();
-        if (id) mostrarDadosPorID(id);
-        else mostrarErro("Nenhum ID fornecido na URL.");
+        const tag = getParametroID();
+        if (tag) mostrarDadosPorID(tag);
+        else mostrarErro("No TAG provided in URL.");
       } catch (error) {
-        mostrarErro("Erro ao carregar o arquivo CSV.");
+        mostrarErro("Error loading CSV file.");
       }
     }
 
     function mostrarDadosPorID(id) {
       const container = document.getElementById("dadosContainer");
       container.innerHTML = "";
-      const item = registros.find(r => r.ID === id);
+      const item = registros.find(r => r.TAG === id);
 
       if (!item) {
-        mostrarErro("ID não encontrado.");
+        mostrarErro("TAG not found.");
         return;
       }
 
@@ -107,17 +105,12 @@
       container.innerHTML = `<div class="col-span-2 text-red-600 p-4">${mensagem}</div>`;
     }
 
-    function atualizarDataHora() {
-      const agora = new Date();
-      const offsetBrasilia = -0 * 60; // UTC-3
-      const localTime = new Date(agora.getTime() + (offsetBrasilia - agora.getTimezoneOffset()) * 60000);
-      const dataHora = localTime.toISOString().slice(0, 19).replace("T", " ");
-      document.getElementById("datetime").textContent = `${dataHora}`;
-    }
+    
 
     carregarCSV();
-    atualizarDataHora();
-    setInterval(atualizarDataHora, 1000);
+    
   </script>
 </body>
 </html>
+
+
