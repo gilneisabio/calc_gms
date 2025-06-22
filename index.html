@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GS - Controle de Ponto e Horas Extras</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --primary-dark: #2980b9;
+            --secondary-color: #2c3e50;
+            --bg-color: #f8fafc;
+            --card-color: white;
+            --shadow: 0 4px 8px rgba(41, 128, 185, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', Arial, sans-serif; /* Usando Inter conforme instrução */
+            background-color: var(--bg-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem 1rem;
+            color: var(--secondary-color);
+            line-height: 1.6;
+        }
+
+        .logo {
+            font-size: 4rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 2.5rem;
+            text-shadow: 1px 1px 3px rgba(41, 128, 185, 0.2);
+        }
+
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            align-items: center;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .icon-button {
+            background-color: var(--card-color);
+            border: 1px solid #e0e0e0;
+            border-radius: 1rem;
+            width: 120px;
+            height: 120px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: var(--secondary-color);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .icon-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(41, 128, 185, 0.15);
+            border-color: var(--primary-color);
+        }
+
+        .icon-button:focus {
+            outline: 2px solid var(--primary-dark);
+            outline-offset: 2px;
+        }
+
+        .icon-button i {
+            font-size: 2.25rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .label {
+            font-size: 0.875rem;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        footer {
+            margin-top: auto;
+            padding: 1.5rem 0;
+            font-size: 0.8rem;
+            color: var(--secondary-color);
+        }
+
+        /* Containers */
+        .salary-container, .records-container, .overtime-container {
+            display: none;
+            width: 100%;
+            max-width: 1000px;
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: var(--shadow);
+            margin-top: 2rem;
+        }
+
+        /* Forms */
+        .salary-form, .records-form, .overtime-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .salary-form h2, .records-form h2, .overtime-form h2 {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-group label {
+            font-weight: 500;
+        }
+
+        .form-group input, .form-group select {
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: 2px solid var(--primary-color);
+        }
+
+        .time-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .day-schedule {
+            background: #f9f9f9;
+            padding: 1rem;
+            border-radius: 0.5rem;
+        }
+
+        .day-schedule h3 {
+            margin-bottom: 0.5rem;
+            color: var(--primary-dark);
+            font-size: 1rem;
+        }
+
+        /* Buttons */
+        .btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 1rem;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .back-button {
+            background-color: #f1f1f1;
+            color: var(--secondary-color);
+            margin-top: 1rem;
+        }
+
+        .back-button:hover {
+            background-color: #e0e0e0;
+        }
+        
+        .button-container {
+            cursor: default;
+        }
+    
+        .icon-button, .icon-button * {
+            cursor: pointer;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        /* Results */
+        .results-container {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: #f0f7ff;
+            border-radius: 0.5rem;
+        }
+
+        .results-container h3 {
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #d6e9ff;
+        }
+
+        .result-item:last-child {
+            border-bottom: none;
+        }
+
+        .result-label {
+            font-weight: 500;
+        }
+
+        .result-value {
+            font-weight: bold;
+        }
+
+        .highlight {
+            color: var(--primary-dark);
+            font-size: 1.1rem;
+        }
+
+        /* Records Table */
+        .records-table, .overtime-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        .records-table th, 
+        .records-table td,
+        .overtime-table th,
+        .overtime-table td {
+            padding: 0.75rem;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        .records-table th,
+        .overtime-table th {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 500;
+        }
+
+        .records-table tr:nth-child(even),
+        .overtime-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .records-table tr:hover,
+        .overtime-table tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Add Record Form */
+        .add-record {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .add-record input {
+            flex: 1;
+            min-width: 120px;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 0.5rem;
+        }
+
+        .add-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0 1.5rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .add-btn:hover {
+            background-color: var(--primary-dark);
+        }
+
+        /* Checkboxes */
+        .day-type-check {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+            flex-wrap: wrap; /* Para quebrar linha em telas pequenas */
+        }
+
+        .day-type-check input {
+            width: 1.2rem;
+            height: 1.2rem;
+        }
+
+        /* Hide specific table columns */
+        .overtime-table th:nth-child(5), /* Domingo/Feriado */
+        .overtime-table td:nth-child(5),
+        .overtime-table th:nth-child(6), /* Sexta */
+        .overtime-table td:nth-child(6),
+        .overtime-table th:nth-child(7), /* Sábado */
+        .overtime-table td:nth-child(7) {
+            display: none;
+        }
+
+        /* Delete Button */
+        .delete-btn {
+            background: none;
+            border: none;
+            color: #e74c3c;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        /* Total Display */
+        .total-display {
+            text-align: right;
+            font-weight: bold;
+            margin-top: 1rem;
+            font-size: 1.1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 3rem;
+            }
+            
+            .icon-button {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .icon-button i {
+                font-size: 1.75rem;
+            }
+
+            .salary-container, .records-container, .overtime-container {
+                padding: 1.5rem;
+                overflow-x: auto;
+            }
+            
+            .records-table, .overtime-table {
+                font-size: 0.8rem;
+            }
+            
+            .add-record {
+                flex-direction: column;
+            }
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1000; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 400px;
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+            text-align: center;
+            position: relative;
+        }
+
+        .modal-content h3 {
+            margin-bottom: 15px;
+            color: var(--primary-dark);
+        }
+
+        .modal-content p {
+            margin-bottom: 20px;
+            font-size: 1rem;
+            color: var(--secondary-color);
+        }
+
+        .modal-close {
+            color: #aaa;
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .modal-close:hover,
+        .modal-close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .modal-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .modal-buttons button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+
+        .modal-buttons .confirm-btn {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .modal-buttons .confirm-btn:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .modal-buttons .cancel-btn {
+            background-color: #f1f1f1;
+            color: var(--secondary-color);
+        }
+
+        .modal-buttons .cancel-btn:hover {
+            background-color: #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 class="logo">GS</h1>
+    </header>
+
+    <main>
+        <div class="button-container">
+            <div class="icon-button" id="tools-button">
+                <i class="fas fa-tools" aria-hidden="true"></i>
+                <div class="label">Ferramentas</div>
+            </div>
+
+            <div class="icon-button" id="overtime-button">
+                <i class="fas fa-clock" aria-hidden="true"></i>
+                <div class="label">Horas Extras</div>
+            </div>
+        </div>
+
+        <!-- Página de Cálculo de Salário -->
+        <div class="salary-container" id="salary-container">
+            <div class="salary-form">
+                <h2>Configuração de Valores</h2>
+                
+                <div class="form-group">
+                    <label for="monthly-salary">Salário Mensal (R$)</label>
+                    <input type="number" id="monthly-salary" placeholder="Ex: 3829.26" step="0.01" min="0" value="3829.26">
+                </div>
+                
+                <div class="form-group">
+                    <label for="hour-value-50">Valor Hora Extra 50% (R$)</label>
+                    <input type="number" id="hour-value-50" step="0.01" min="0" value="26.10">
+                </div>
+                
+                <div class="form-group">
+                    <label for="hour-value-100">Valor Hora Extra 100% (R$)</label>
+                    <input type="number" id="hour-value-100" step="0.01" min="0" value="34.81">
+                </div>
+
+                <div class="form-group">
+                    <label for="normal-end-time">Hora de Saída Normal (HH:MM)</label>
+                    <input type="time" id="normal-end-time" value="17:44">
+                </div>
+                
+                <button class="btn" id="save-btn">Salvar</button>
+                <button class="btn back-button" id="back-button">Voltar</button>
+                
+                <div class="results-container" id="results-container" style="display: none;">
+                    <h3>Dados Salvos</h3>
+                    <div id="results-content"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Página de Horas Extras -->
+        <div class="overtime-container" id="overtime-container">
+            <div class="overtime-form">
+                <h2>Cálculo de Horas Extras</h2>
+                
+                <div class="form-group">
+                    <label for="overtime-date">Data</label>
+                    <input type="date" id="overtime-date"> <!-- Alterado para type="date" -->
+                </div>
+                
+                <div class="form-group">
+                    <label for="overtime-end">Hora Final (HH:MM)</label>
+                    <input type="time" id="overtime-end" value="17:45">
+                </div>
+                
+                <div class="day-type-check">
+                    <input type="checkbox" id="is-friday">
+                    <label for="is-friday">Sexta-feira</label>
+                    <input type="checkbox" id="is-saturday">
+                    <label for="is-saturday">Sábado</label>
+                    <input type="checkbox" id="is-holiday-overtime">
+                    <label for="is-holiday-overtime">Domingo/Feriado</label>
+                </div>
+                
+                <button class="btn" id="add-overtime-btn">Adicionar</button>
+                <button class="btn" id="clear-overtime-btn">Limpar Campos</button>
+                
+                <table class="overtime-table">
+                    <thead>
+                        <tr>
+                            <th>Data</th>
+                            <th>Entrada</th>
+                            <th>Saída</th>
+                            <th>Horas Totais</th>
+                            <!-- Colunas ocultas via CSS -->
+                            <th class="hidden-column">Domingo/Feriado</th>
+                            <th class="hidden-column">Sexta</th>
+                            <th class="hidden-column">Sábado</th>
+                            <th>H Extra 50%</th>
+                            <th>Valor 50%</th>
+                            <th>H Extra 100%</th>
+                            <th>Valor 100%</th>
+                            <th>Cálculo Total</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="overtime-table-body">
+                        <!-- Registros serão adicionados aqui via JavaScript -->
+                    </tbody>
+                </table>
+                
+                <div class="total-display" id="total-overtime">Total Geral: R$ 0,00</div>
+                
+                <button class="btn" id="export-overtime-btn">Exportar CSV</button>
+                <button class="btn back-button" id="back-overtime-button">Voltar</button>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 GS Ferramentas. Todos os direitos reservados.</p>
+    </footer>
+
+    <!-- Modal de Mensagem Customizado -->
+    <div id="custom-modal-overlay" class="modal-overlay">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <h3 id="modal-title"></h3>
+            <p id="modal-message"></p>
+            <div class="modal-buttons" id="modal-buttons">
+                <!-- Buttons will be injected here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js" defer></script>
+</body>
+</html>
