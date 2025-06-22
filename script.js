@@ -368,7 +368,7 @@ addOvertimeBtn.addEventListener('click', async () => {
     document.getElementById('overtime-end').value = '17:45';
     isFridayCheckbox.checked = false;
     isSaturdayCheckbox.checked = false;
-    isHolidayOvertimeCheckbox.checked = false; // Limpa a checkbox de Domingo/Feriado
+    isHolidayOvertimeCheckbox.checked = false;
 });
 
 /**
