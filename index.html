@@ -55,8 +55,8 @@
             background-color: var(--card-color);
             border: 1px solid #e0e0e0;
             border-radius: 1rem;
-            width: 120px;
-            height: 120px;
+            width: 120px; /* Tamanho padrão */
+            height: 120px; /* Tamanho padrão */
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -67,6 +67,22 @@
             transition: var(--transition);
             cursor: pointer;
         }
+
+        /* Aumentar ícones na página inicial */
+        .button-container .icon-button {
+            width: 160px; /* Tamanho maior para botões da página inicial */
+            height: 160px; /* Tamanho maior para botões da página inicial */
+        }
+
+        .button-container .icon-button i {
+            font-size: 3.5rem; /* Ícone maior na página inicial */
+            margin-bottom: 0.75rem;
+        }
+
+        .button-container .icon-button .label {
+            font-size: 1.1rem; /* Texto maior na página inicial */
+        }
+
 
         .icon-button:hover {
             transform: translateY(-5px);
@@ -80,7 +96,7 @@
         }
 
         .icon-button i {
-            font-size: 2.25rem;
+            font-size: 2.25rem; /* Tamanho padrão para outros ícones */
             margin-bottom: 0.5rem;
             color: var(--primary-color);
         }
@@ -328,8 +344,7 @@
 
         /* Força a tabela a ter uma largura mínima para a rolagem */
         .overtime-table {
-            min-width: 760px; /* Ajuste este valor conforme necessário para todas as colunas visíveis */
-            /* Remove a sombra daqui, pois agora está no wrapper */
+            min-width: 760px; /* Mantém a largura mínima para garantir a rolagem */
             box-shadow: none;
         }
 
@@ -361,27 +376,45 @@
                 font-size: 3rem;
             }
             
-            .icon-button {
-                width: 100px;
-                height: 100px;
+            /* Remove o ajuste específico para ícones de botões na página inicial em telas pequenas */
+            .button-container .icon-button {
+                width: 120px; /* Volta ao tamanho padrão para celulares */
+                height: 120px; /* Volta ao tamanho padrão para celulares */
             }
-            
-            .icon-button i {
-                font-size: 1.75rem;
+
+            .button-container .icon-button i {
+                font-size: 2.25rem; /* Volta ao tamanho padrão para celulares */
+            }
+
+            .button-container .icon-button .label {
+                font-size: 0.875rem; /* Volta ao tamanho padrão para celulares */
             }
 
             .salary-container, .overtime-container {
-                padding: 1.5rem; /* Reduz padding em telas menores */
+                padding: 1rem; /* Reduz padding em telas menores */
             }
             
             .overtime-table {
                 font-size: 0.8rem; /* Reduz fonte da tabela */
             }
             
-            /* Inputs e checkboxes em coluna para melhor visualização */
-            .form-group, .day-type-check {
+            /* Melhoria na exibição de inputs e checkboxes na página de horas extras */
+            .overtime-form .form-group {
                 flex-direction: column;
-                align-items: flex-start; /* Alinha itens à esquerda */
+                align-items: flex-start;
+                width: 100%; /* Ocupa toda a largura */
+            }
+
+            .overtime-form .form-group input[type="date"],
+            .overtime-form .form-group input[type="time"] {
+                width: 100%; /* Inputs ocupam toda a largura disponível */
+                max-width: none; /* Remove restrições de largura máxima */
+            }
+
+            .day-type-check {
+                flex-direction: column; /* Checkboxes empilhadas verticalmente */
+                align-items: flex-start;
+                gap: 0.75rem; /* Aumenta o espaçamento entre elas */
             }
 
             .day-type-check label {
