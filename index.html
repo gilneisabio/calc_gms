@@ -381,22 +381,22 @@
 
         /* Modal Styles */
         .modal-overlay {
-            display: none !important; /* Força a ocultação do overlay do modal */
-            position: fixed; /* Stay in place */
-            z-index: 1000; /* Sit on top */
+            display: none; /* Inicia oculto, sem !important */
+            position: fixed; /* Fixado na tela */
+            z-index: 1000; /* Acima de outros elementos */
             left: 0;
             top: 0;
-            width: 100%; /* Full width */
-            height: 100%; /* Full height */
-            overflow: auto; /* Enable scroll if needed */
-            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-            justify-content: center;
-            align-items: center;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+            display: flex; /* Adiciona flex para centralizar */
+            justify-content: center; /* Centraliza horizontalmente */
+            align-items: center; /* Centraliza verticalmente */
         }
 
         .modal-content {
             background-color: #fefefe;
-            margin: auto;
             padding: 20px;
             border: 1px solid #888;
             border-radius: 10px;
@@ -426,7 +426,7 @@
             font-size: 28px;
             font-weight: bold;
             cursor: pointer;
-            display: none !important; /* Força a ocultação do botão de fechar do modal */
+            display: block; /* Garante que o X apareça quando o modal estiver visível */
         }
 
         .modal-close:hover,
