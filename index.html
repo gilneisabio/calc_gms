@@ -183,7 +183,7 @@
             background-color: var(--primary-color);
             color: white;
             border: none;
-            padding: 0.75rem;
+            padding: 1rem; /* Aumenta a altura dos botões */
             border-radius: 0.5rem;
             font-size: 1rem;
             font-weight: 500;
@@ -349,9 +349,18 @@
         }
 
         /* Oculta colunas específicas da tabela */
-        .overtime-table .hidden-column {
+        .overtime-table .hidden-column,
+        .overtime-table th:nth-child(8), /* H Extra 50% */
+        .overtime-table td:nth-child(8),
+        .overtime-table th:nth-child(9), /* Valor 50% */
+        .overtime-table td:nth-child(9),
+        .overtime-table th:nth-child(10), /* H Extra 100% */
+        .overtime-table td:nth-child(10),
+        .overtime-table th:nth-child(11), /* Valor 100% */
+        .overtime-table td:nth-child(11) {
             display: none;
         }
+
 
         /* Delete Button */
         .delete-btn {
@@ -378,16 +387,16 @@
             
             /* Ajuste específico para ícones de botões na página inicial em telas pequenas */
             .button-container .icon-button {
-                width: 150px; /* Tamanho razoável para celulares */
-                height: 150px; /* Tamanho razoável para celulares */
+                width: 180px; /* Um pouco maior para celulares, mas não 360px */
+                height: 180px; /* Um pouco maior para celulares, mas não 360px */
             }
 
             .button-container .icon-button i {
-                font-size: 3rem; /* Ícone menor para celulares */
+                font-size: 3.5rem; /* Ícone menor para celulares */
             }
 
             .button-container .icon-button .label {
-                font-size: 1rem; /* Texto menor para celulares */
+                font-size: 1.2rem; /* Texto menor para celulares */
             }
 
             .salary-container, .overtime-container {
@@ -396,6 +405,7 @@
             
             .overtime-table {
                 font-size: 0.8rem; /* Reduz fonte da tabela */
+                min-width: 500px; /* Ajuste o min-width da tabela para telas pequenas se necessário */
             }
             
             /* Melhoria na exibição de inputs e checkboxes na página de horas extras */
@@ -501,7 +511,7 @@
                 </div>
                 
                 <button class="btn" id="add-overtime-btn">Adicionar</button>
-                <button class="btn" id="clear-overtime-btn">Limpar Campos</button>
+                <button class="btn" id="clear-overtime-btn" style="display: none;">Limpar Campos</button> <!-- Botão oculto -->
                 
                 <div class="table-responsive-wrapper">
                     <table class="overtime-table">
@@ -515,10 +525,10 @@
                                 <th class="hidden-column">Domingo/Feriado</th>
                                 <th class="hidden-column">Sexta</th>
                                 <th class="hidden-column">Sábado</th>
-                                <th>H Extra 50%</th>
-                                <th>Valor 50%</th>
-                                <th>H Extra 100%</th>
-                                <th>Valor 100%</th>
+                                <th class="hidden-column">H Extra 50%</th> <!-- Oculta esta coluna -->
+                                <th class="hidden-column">Valor 50%</th> <!-- Oculta esta coluna -->
+                                <th class="hidden-column">H Extra 100%</th> <!-- Oculta esta coluna -->
+                                <th class="hidden-column">Valor 100%</th> <!-- Oculta esta coluna -->
                                 <th>Cálculo Total</th>
                                 <th>Ações</th>
                             </tr>
