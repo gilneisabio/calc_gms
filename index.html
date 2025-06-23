@@ -379,6 +379,97 @@
             font-size: 1.1rem;
         }
 
+        /* Modal Styles */
+        .modal-overlay {
+            display: none !important; /* Força a ocultação do overlay do modal */
+            position: fixed; /* Stay in place */
+            z-index: 1000; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 400px;
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+            text-align: center;
+            position: relative;
+        }
+
+        .modal-content h3 {
+            margin-bottom: 15px;
+            color: var(--primary-dark);
+        }
+
+        .modal-content p {
+            margin-bottom: 20px;
+            font-size: 1rem;
+            color: var(--secondary-color);
+        }
+
+        .modal-close {
+            color: #aaa;
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            display: none !important; /* Força a ocultação do botão de fechar do modal */
+        }
+
+        .modal-close:hover,
+        .modal-close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .modal-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .modal-buttons button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+
+        .modal-buttons .confirm-btn {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .modal-buttons .confirm-btn:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .modal-buttons .cancel-btn {
+            background-color: #f1f1f1;
+            color: var(--secondary-color);
+        }
+
+        .modal-buttons .cancel-btn:hover {
+            background-color: #e0e0e0;
+        }
+
         /* Responsive adjustments */
         @media (max-width: 768px) {
             .logo {
@@ -405,33 +496,33 @@
 
             /* Aumenta o tamanho da fonte dos labels dos campos */
             .form-group label {
-                font-size: 1.1rem; /* Aumenta a fonte dos labels */
+                font-size: 1.2rem; /* Aumenta a fonte dos labels */
             }
             
             /* Aumenta o padding e a fonte dos inputs para melhor toque */
             .form-group input[type="date"],
             .form-group input[type="time"],
             .form-group input[type="number"] {
-                padding: 0.9rem; /* Aumenta o padding dos inputs */
-                font-size: 1.1rem; /* Aumenta a fonte dos inputs */
+                padding: 1rem; /* Aumenta o padding dos inputs */
+                font-size: 1.2rem; /* Aumenta a fonte dos inputs */
                 height: auto; /* Permite que o padding defina a altura */
-                min-height: 48px; /* Altura mínima para melhor toque */
+                min-height: 52px; /* Altura mínima para melhor toque */
             }
 
             /* Aumenta o tamanho dos checkboxes e seus labels */
             .day-type-check label {
-                font-size: 1.1rem; /* Aumenta a fonte dos labels das checkboxes */
+                font-size: 1.2rem; /* Aumenta a fonte dos labels das checkboxes */
             }
             .day-type-check input[type="checkbox"] {
-                width: 1.5rem; /* Aumenta a largura do checkbox */
-                height: 1.5rem; /* Aumenta a altura do checkbox */
+                width: 1.6rem; /* Aumenta a largura do checkbox */
+                height: 1.6rem; /* Aumenta a altura do checkbox */
             }
             
             /* Aumenta o padding e a fonte de todos os botões na página de Horas Extras */
             .btn {
-                padding: 1.2rem; /* Aumenta o padding dos botões */
-                font-size: 1.2rem; /* Aumenta a fonte dos botões */
-                min-height: 52px; /* Altura mínima para melhor toque */
+                padding: 1.3rem; /* Aumenta o padding dos botões */
+                font-size: 1.3rem; /* Aumenta a fonte dos botões */
+                min-height: 56px; /* Altura mínima para melhor toque */
             }
 
             .overtime-table {
@@ -449,7 +540,7 @@
             .day-type-check {
                 flex-direction: column; /* Checkboxes empilhadas verticalmente */
                 align-items: flex-start;
-                gap: 0.9rem; /* Aumenta o espaçamento entre elas */
+                gap: 1rem; /* Aumenta o espaçamento entre elas */
             }
 
             .day-type-check label {
@@ -457,7 +548,7 @@
             }
 
             .total-display {
-                font-size: 1.3rem; /* Aumenta o tamanho da fonte para o total geral */
+                font-size: 1.4rem; /* Aumenta o tamanho da fonte para o total geral */
             }
         }
     </style>
