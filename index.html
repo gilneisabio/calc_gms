@@ -35,7 +35,7 @@
         }
 
         .logo {
-            font-size: 4rem;
+            font-size: 7rem; /* Tamanho maior para o logo GS */
             font-weight: bold;
             color: var(--primary-color);
             margin-bottom: 2.5rem;
@@ -75,12 +75,12 @@
         }
 
         .button-container .icon-button i {
-            font-size: 4.5rem; /* Ícone maior na página inicial */
-            margin-bottom: 0.75rem;
+            font-size: 6rem; /* Ícone maior na página inicial */
+            margin-bottom: 1rem;
         }
 
         .button-container .icon-button .label {
-            font-size: 2.1rem; /* Texto maior na página inicial */
+            font-size: 1.5rem; /* Texto maior na página inicial */
         }
 
 
@@ -96,7 +96,7 @@
         }
 
         .icon-button i {
-            font-size: 2.25rem; /* Tamanho padrão para outros ícones */
+            font-size: 2.25rem; /* Tamanho padrão para outros ícones (fora da pág. inicial) */
             margin-bottom: 0.5rem;
             color: var(--primary-color);
         }
@@ -373,21 +373,21 @@
         /* Responsive adjustments */
         @media (max-width: 768px) {
             .logo {
-                font-size: 3rem;
+                font-size: 4rem; /* Reduz o logo em celulares para não ocupar muito espaço */
             }
             
-            /* Remove o ajuste específico para ícones de botões na página inicial em telas pequenas */
+            /* Ajuste específico para ícones de botões na página inicial em telas pequenas */
             .button-container .icon-button {
-                width: 120px; /* Volta ao tamanho padrão para celulares */
-                height: 120px; /* Volta ao tamanho padrão para celulares */
+                width: 150px; /* Tamanho razoável para celulares */
+                height: 150px; /* Tamanho razoável para celulares */
             }
 
             .button-container .icon-button i {
-                font-size: 2.25rem; /* Volta ao tamanho padrão para celulares */
+                font-size: 3rem; /* Ícone menor para celulares */
             }
 
             .button-container .icon-button .label {
-                font-size: 0.875rem; /* Volta ao tamanho padrão para celulares */
+                font-size: 1rem; /* Texto menor para celulares */
             }
 
             .salary-container, .overtime-container {
@@ -556,3 +556,4 @@
     <script src="script.js" defer></script>
 </body>
 </html>
+
