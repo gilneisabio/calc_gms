@@ -402,10 +402,41 @@
             .salary-container, .overtime-container {
                 padding: 1rem; /* Reduz padding em telas menores */
             }
+
+            /* Aumenta o tamanho da fonte dos labels dos campos */
+            .form-group label {
+                font-size: 1.1rem; /* Aumenta a fonte dos labels */
+            }
             
+            /* Aumenta o padding e a fonte dos inputs para melhor toque */
+            .form-group input[type="date"],
+            .form-group input[type="time"],
+            .form-group input[type="number"] {
+                padding: 0.9rem; /* Aumenta o padding dos inputs */
+                font-size: 1.1rem; /* Aumenta a fonte dos inputs */
+                height: auto; /* Permite que o padding defina a altura */
+                min-height: 48px; /* Altura mínima para melhor toque */
+            }
+
+            /* Aumenta o tamanho dos checkboxes e seus labels */
+            .day-type-check label {
+                font-size: 1.1rem; /* Aumenta a fonte dos labels das checkboxes */
+            }
+            .day-type-check input[type="checkbox"] {
+                width: 1.5rem; /* Aumenta a largura do checkbox */
+                height: 1.5rem; /* Aumenta a altura do checkbox */
+            }
+            
+            /* Aumenta o padding e a fonte de todos os botões na página de Horas Extras */
+            .btn {
+                padding: 1.2rem; /* Aumenta o padding dos botões */
+                font-size: 1.2rem; /* Aumenta a fonte dos botões */
+                min-height: 52px; /* Altura mínima para melhor toque */
+            }
+
             .overtime-table {
-                font-size: 0.8rem; /* Reduz fonte da tabela */
-                min-width: 500px; /* Ajuste o min-width da tabela para telas pequenas se necessário */
+                font-size: 0.9rem; /* Volta a fonte da tabela para um tamanho legível no celular */
+                min-width: 550px; /* Pode precisar de ajuste fino dependendo do conteúdo da célula */
             }
             
             /* Melhoria na exibição de inputs e checkboxes na página de horas extras */
@@ -415,20 +446,18 @@
                 width: 100%; /* Ocupa toda a largura */
             }
 
-            .overtime-form .form-group input[type="date"],
-            .overtime-form .form-group input[type="time"] {
-                width: 100%; /* Inputs ocupam toda a largura disponível */
-                max-width: none; /* Remove restrições de largura máxima */
-            }
-
             .day-type-check {
                 flex-direction: column; /* Checkboxes empilhadas verticalmente */
                 align-items: flex-start;
-                gap: 0.75rem; /* Aumenta o espaçamento entre elas */
+                gap: 0.9rem; /* Aumenta o espaçamento entre elas */
             }
 
             .day-type-check label {
                 margin-left: 0.25rem; /* Ajuste o espaçamento se necessário */
+            }
+
+            .total-display {
+                font-size: 1.3rem; /* Aumenta o tamanho da fonte para o total geral */
             }
         }
     </style>
