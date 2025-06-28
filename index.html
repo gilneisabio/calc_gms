@@ -23,7 +23,7 @@
         }
 
         body {
-            font-family: 'Inter', Arial, sans-serif; /* Usando Inter conforme instrução */
+            font-family: 'Inter', Arial, sans-serif;
             background-color: var(--bg-color);
             display: flex;
             flex-direction: column;
@@ -35,18 +35,19 @@
         }
 
         .logo {
-            font-size: 7rem; /* Tamanho maior para o logo GS */
+            font-size: 7rem;
             font-weight: bold;
             color: var(--primary-color);
             margin-bottom: 2.5rem;
             text-shadow: 1px 1px 3px rgba(41, 128, 185, 0.2);
         }
 
+        /* ALTERADO: Layout dos botões para vertical */
         .button-container {
             display: flex;
-            flex-direction: column;
+            flex-direction: column; /* Coloca os itens em coluna */
             gap: 1.5rem;
-            align-items: center;
+            align-items: center; /* Centraliza horizontalmente */
             width: 100%;
             max-width: 600px;
         }
@@ -55,8 +56,8 @@
             background-color: var(--card-color);
             border: 1px solid #e0e0e0;
             border-radius: 1rem;
-            width: 120px; /* Tamanho padrão */
-            height: 120px; /* Tamanho padrão */
+            width: 120px;
+            height: 120px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -68,19 +69,19 @@
             cursor: pointer;
         }
 
-        /* Aumentar ícones na página inicial */
+        /* ALTERADO: Ajuste no tamanho dos botões para o layout vertical */
         .button-container .icon-button {
-            width: 360px; /* Tamanho maior para botões da página inicial */
-            height: 360px; /* Tamanho maior para botões da página inicial */
+            width: 360px; 
+            height: 180px; 
         }
 
         .button-container .icon-button i {
-            font-size: 6rem; /* Ícone maior na página inicial */
+            font-size: 4rem;
             margin-bottom: 1rem;
         }
 
         .button-container .icon-button .label {
-            font-size: 1.5rem; /* Texto maior na página inicial */
+            font-size: 1.5rem;
         }
 
 
@@ -96,7 +97,7 @@
         }
 
         .icon-button i {
-            font-size: 2.25rem; /* Tamanho padrão para outros ícones (fora da pág. inicial) */
+            font-size: 2.25rem;
             margin-bottom: 0.5rem;
             color: var(--primary-color);
         }
@@ -183,7 +184,7 @@
             background-color: var(--primary-color);
             color: white;
             border: none;
-            padding: 1rem; /* Aumenta a altura dos botões */
+            padding: 1rem;
             border-radius: 0.5rem;
             font-size: 1rem;
             font-weight: 500;
@@ -209,7 +210,7 @@
         .button-container {
             cursor: default;
         }
-    
+        
         .icon-button, .icon-button * {
             cursor: pointer;
             user-select: none;
@@ -324,7 +325,7 @@
             align-items: center;
             gap: 0.5rem;
             margin-top: 0.5rem;
-            flex-wrap: wrap; /* Para quebrar linha em telas pequenas */
+            flex-wrap: wrap;
         }
 
         .day-type-check input {
@@ -335,28 +336,27 @@
         /* Container para tabela responsiva */
         .table-responsive-wrapper {
             width: 100%;
-            overflow-x: auto; /* Permite rolagem horizontal */
-            -webkit-overflow-scrolling: touch; /* Rolagem suave em iOS */
-            margin-top: 1.5rem; /* Espaçamento acima da tabela */
-            border-radius: 0.5rem; /* Bordas arredondadas */
-            box-shadow: var(--shadow); /* Sombra para o wrapper */
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin-top: 1.5rem;
+            border-radius: 0.5rem;
+            box-shadow: var(--shadow);
         }
 
-        /* Força a tabela a ter uma largura mínima para a rolagem */
         .overtime-table {
-            min-width: 760px; /* Mantém a largura mínima para garantir a rolagem */
+            min-width: 760px;
             box-shadow: none;
         }
 
         /* Oculta colunas específicas da tabela */
         .overtime-table .hidden-column,
-        .overtime-table th:nth-child(8), /* H Extra 50% */
+        .overtime-table th:nth-child(8),
         .overtime-table td:nth-child(8),
-        .overtime-table th:nth-child(9), /* Valor 50% */
+        .overtime-table th:nth-child(9),
         .overtime-table td:nth-child(9),
-        .overtime-table th:nth-child(10), /* H Extra 100% */
+        .overtime-table th:nth-child(10),
         .overtime-table td:nth-child(10),
-        .overtime-table th:nth-child(11), /* Valor 100% */
+        .overtime-table th:nth-child(11),
         .overtime-table td:nth-child(11) {
             display: none;
         }
@@ -379,20 +379,20 @@
             font-size: 1.1rem;
         }
 
-        /* Modal Styles */
+        /* CORRIGIDO: Estilos do Modal */
         .modal-overlay {
-            display: none; /* Inicia oculto, sem !important */
-            position: fixed; /* Fixado na tela */
-            z-index: 1000; /* Acima de outros elementos */
+            display: none; /* Garante que o modal comece oculto */
+            position: fixed;
+            z-index: 1000;
             left: 0;
             top: 0;
             width: 100%;
             height: 100%;
             overflow: auto;
             background-color: rgba(0,0,0,0.4);
-            display: flex; /* Adiciona flex para centralizar */
-            justify-content: center; /* Centraliza horizontalmente */
-            align-items: center; /* Centraliza verticalmente */
+            /* As propriedades de flexbox serão ativadas via JavaScript */
+            justify-content: center;
+            align-items: center;
         }
 
         .modal-content {
@@ -426,7 +426,7 @@
             font-size: 28px;
             font-weight: bold;
             cursor: pointer;
-            display: block; /* Garante que o X apareça quando o modal estiver visível */
+            display: block;
         }
 
         .modal-close:hover,
@@ -473,82 +473,78 @@
         /* Responsive adjustments */
         @media (max-width: 768px) {
             .logo {
-                font-size: 4rem; /* Reduz o logo em celulares para não ocupar muito espaço */
+                font-size: 4rem;
             }
             
-            /* Ajuste específico para ícones de botões na página inicial em telas pequenas */
+            /* ALTERADO: Ajuste responsivo para o layout vertical */
             .button-container .icon-button {
-                width: 180px; /* Um pouco maior para celulares, mas não 360px */
-                height: 180px; /* Um pouco maior para celulares, mas não 360px */
+                width: 90%; /* Ocupa mais a largura da tela */
+                max-width: 320px; /* Limita o tamanho máximo */
+                height: 160px;
             }
 
             .button-container .icon-button i {
-                font-size: 3.5rem; /* Ícone menor para celulares */
+                font-size: 3rem;
             }
 
             .button-container .icon-button .label {
-                font-size: 1.2rem; /* Texto menor para celulares */
+                font-size: 1.2rem;
             }
 
             .salary-container, .overtime-container {
-                padding: 1rem; /* Reduz padding em telas menores */
+                padding: 1rem;
             }
 
-            /* Aumenta o tamanho da fonte dos labels dos campos */
             .form-group label {
-                font-size: 1.2rem; /* Aumenta a fonte dos labels */
+                font-size: 1.2rem;
             }
             
-            /* Aumenta o padding e a fonte dos inputs para melhor toque */
             .form-group input[type="date"],
             .form-group input[type="time"],
             .form-group input[type="number"] {
-                padding: 1rem; /* Aumenta o padding dos inputs */
-                font-size: 1.2rem; /* Aumenta a fonte dos inputs */
-                height: auto; /* Permite que o padding defina a altura */
-                min-height: 52px; /* Altura mínima para melhor toque */
+                padding: 1rem;
+                font-size: 1.2rem;
+                height: auto;
+                min-height: 52px;
             }
 
-            /* Aumenta o tamanho dos checkboxes e seus labels */
             .day-type-check label {
-                font-size: 1.2rem; /* Aumenta a fonte dos labels das checkboxes */
+                font-size: 1.2rem;
             }
             .day-type-check input[type="checkbox"] {
-                width: 1.6rem; /* Aumenta a largura do checkbox */
-                height: 1.6rem; /* Aumenta a altura do checkbox */
+                width: 1.6rem;
+                height: 1.6rem;
             }
             
-            /* Aumenta o padding e a fonte de todos os botões na página de Horas Extras */
             .btn {
-                padding: 1.3rem; /* Aumenta o padding dos botões */
-                font-size: 1.3rem; /* Aumenta a fonte dos botões */
-                min-height: 56px; /* Altura mínima para melhor toque */
+                padding: 1.3rem;
+                font-size: 1.3rem;
+                min-height: 56px;
             }
 
             .overtime-table {
-                font-size: 0.9rem; /* Volta a fonte da tabela para um tamanho legível no celular */
-                min-width: 550px; /* Pode precisar de ajuste fino dependendo do conteúdo da célula */
+                font-size: 0.9rem;
+                min-width: 550px;
             }
             
-            /* Melhoria na exibição de inputs e checkboxes na página de horas extras */
             .overtime-form .form-group {
                 flex-direction: column;
                 align-items: flex-start;
-                width: 100%; /* Ocupa toda a largura */
+                width: 100%;
             }
 
             .day-type-check {
-                flex-direction: column; /* Checkboxes empilhadas verticalmente */
+                flex-direction: column;
                 align-items: flex-start;
-                gap: 1rem; /* Aumenta o espaçamento entre elas */
+                gap: 1rem;
             }
 
             .day-type-check label {
-                margin-left: 0.25rem; /* Ajuste o espaçamento se necessário */
+                margin-left: 0.25rem;
             }
 
             .total-display {
-                font-size: 1.4rem; /* Aumenta o tamanho da fonte para o total geral */
+                font-size: 1.4rem;
             }
         }
     </style>
@@ -569,9 +565,13 @@
                 <i class="fas fa-clock" aria-hidden="true"></i>
                 <div class="label">Horas Extras</div>
             </div>
+
+            <div class="icon-button" id="register-checkout-button">
+                <i class="fas fa-user-clock" aria-hidden="true"></i>
+                <div class="label">Registrar Saída</div>
+            </div>
         </div>
 
-        <!-- Página de Cálculo de Salário -->
         <div class="salary-container" id="salary-container">
             <div class="salary-form">
                 <h2>Configuração de Valores</h2>
@@ -606,14 +606,13 @@
             </div>
         </div>
 
-        <!-- Página de Horas Extras -->
         <div class="overtime-container" id="overtime-container">
             <div class="overtime-form">
                 <h2>Cálculo de Horas Extras</h2>
                 
                 <div class="form-group">
                     <label for="overtime-date">Data</label>
-                    <input type="date" id="overtime-date"> <!-- Alterado para type="date" -->
+                    <input type="date" id="overtime-date">
                 </div>
                 
                 <div class="form-group">
@@ -631,7 +630,7 @@
                 </div>
                 
                 <button class="btn" id="add-overtime-btn">Adicionar</button>
-                <button class="btn" id="clear-overtime-btn" style="display: none;">Limpar Campos</button> <!-- Botão oculto -->
+                <button class="btn" id="clear-overtime-btn" style="display: none;">Limpar Campos</button>
                 
                 <div class="table-responsive-wrapper">
                     <table class="overtime-table">
@@ -641,21 +640,19 @@
                                 <th>Entrada</th>
                                 <th>Saída</th>
                                 <th>Horas Totais</th>
-                                <!-- Colunas ocultas via CSS -->
                                 <th class="hidden-column">Domingo/Feriado</th>
                                 <th class="hidden-column">Sexta</th>
                                 <th class="hidden-column">Sábado</th>
-                                <th class="hidden-column">H Extra 50%</th> <!-- Oculta esta coluna -->
-                                <th class="hidden-column">Valor 50%</th> <!-- Oculta esta coluna -->
-                                <th class="hidden-column">H Extra 100%</th> <!-- Oculta esta coluna -->
-                                <th class="hidden-column">Valor 100%</th> <!-- Oculta esta coluna -->
+                                <th class="hidden-column">H Extra 50%</th>
+                                <th class="hidden-column">Valor 50%</th>
+                                <th class="hidden-column">H Extra 100%</th>
+                                <th class="hidden-column">Valor 100%</th>
                                 <th>Cálculo Total</th>
                                 <th>Ações</th>
                             </tr>
                         </thead>
                         <tbody id="overtime-table-body">
-                            <!-- Registros serão adicionados aqui via JavaScript -->
-                        </tbody>
+                            </tbody>
                     </table>
                 </div>
                 
@@ -671,19 +668,16 @@
         <p>&copy; 2024 GS Ferramentas. Todos os direitos reservados.</p>
     </footer>
 
-    <!-- Modal de Mensagem Customizado -->
     <div id="custom-modal-overlay" class="modal-overlay">
         <div class="modal-content">
             <span class="modal-close">&times;</span>
             <h3 id="modal-title"></h3>
             <p id="modal-message"></p>
             <div class="modal-buttons" id="modal-buttons">
-                <!-- Buttons will be injected here -->
-            </div>
+                </div>
         </div>
     </div>
 
     <script src="script.js" defer></script>
 </body>
 </html>
-
